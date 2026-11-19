@@ -32,10 +32,6 @@ app = Flask(__name__)
 def home():
     return render_template('mySite.html')
 
-@app.route('/subPage1')
-def secondPage():
-    return render_template('test2.html')
-
 #Logic:
 def initDB()->None: #change in the feture need MASSIVE changes!
     full_path = os.path.dirname(os.path.abspath(__file__))
