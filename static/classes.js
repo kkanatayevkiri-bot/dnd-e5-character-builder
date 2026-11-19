@@ -98,6 +98,7 @@ class ClassSheet
         this.stats[stat]++;
         this.currentPoints--;
 
+        this.updateStat(stat);
         this.updateCharacter();
     }
 
@@ -108,7 +109,14 @@ class ClassSheet
         this.stats[stat]--;
         this.currentPoints++;
 
+        this.updateStat(stat);
         this.updateCharacter();
+    }
+
+    updateStat(stat)
+    {
+        let content = document.getElementById(`stat-${stat}`);
+        content.innerHTML = this.stats[stat];
     }
 
     updateModifires()
@@ -142,6 +150,19 @@ class ClassSheet
             }
         }
     }
+
+    renderStats()
+    {
+        // console.log("worked");
+        let placeHolder = document.getElementById('stat-cont');
+        let content = "";
+        for(const [stat, val] of Object.entries(this.stats))
+        {
+            content+=`<button onclick='currClass.addPoint("${stat}")'>+</button>${stat}:<div id='stat-${stat}' style='display:inline;'>${val}</div><button onclick="currClass.decPoint('${stat}')">-</button><br><br>`
+        }
+        placeHolder.innerHTML = content;
+    }
+
     //proficincy logic:
     disableNoneProficient()
     {
@@ -349,9 +370,11 @@ class Fighter extends ClassSheet
 const classes = {'paladin':new Paldain(), 'fighter':new Fighter()}
 let currClass = classes['paladin'];
 currClass.updateCharacter();
+currClass.renderStats();
 
 function changeClass(c)
 {
     currClass = classes[c];
     currClass.updateCharacter();
+    currClass.renderStats();
 }
