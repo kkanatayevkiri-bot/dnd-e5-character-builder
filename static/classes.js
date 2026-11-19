@@ -98,7 +98,9 @@ class ClassSheet
         this.stats[stat]++;
         this.currentPoints--;
 
+        this.updateModifire(stat, true);
         this.updateStat(stat);
+        this.updateMod(stat);
         this.updateCharacter();
     }
 
@@ -109,7 +111,9 @@ class ClassSheet
         this.stats[stat]--;
         this.currentPoints++;
 
+        this.updateModifire(stat, false);
         this.updateStat(stat);
+        this.updateMod(stat);
         this.updateCharacter();
     }
 
@@ -119,12 +123,17 @@ class ClassSheet
         content.innerHTML = this.stats[stat];
     }
 
-    updateModifires()
+    updateModifire(stat, flag)
     {
-        for (const [stat, val] of Object.entries(this.stats))
-        {
-            this.modifires[stat] = Math.floor((val-10)/2);
-        }
+        let val = this.stats[stat];
+        if (flag)this.modifires[stat] = Math.round((val-10)/2);
+        else this.modifires[stat] = Math.floor((val-10)/2);
+    }
+
+    updateMod(stat)
+    {
+        let content = document.getElementById(`mod-${stat}`);
+        content.innerHTML = this.modifires[stat];
     }
 
     updateSavingThrows()
@@ -159,6 +168,17 @@ class ClassSheet
         for(const [stat, val] of Object.entries(this.stats))
         {
             content+=`<button onclick='currClass.addPoint("${stat}")'>+</button>${stat}:<div id='stat-${stat}' style='display:inline;'>${val}</div><button onclick="currClass.decPoint('${stat}')">-</button><br><br>`
+        }
+        placeHolder.innerHTML = content;
+    }
+
+    renderModifires()
+    {
+        let placeHolder = document.getElementById("modifire-cont");
+        let content = "";
+        for(const [modifire, val] of Object.entries(this.modifires))
+        {
+            content+=`${modifire}:<div id='mod-${modifire}' style='display:inline;'>${val}</div><br><br>`
         }
         placeHolder.innerHTML = content;
     }
@@ -295,7 +315,6 @@ class ClassSheet
     //refresh after every input:
     updateCharacter()
     {
-        this.updateModifires();
         this.updateSavingThrows();
         this.updateSkills();
         this.keepCheckedOn();
@@ -318,7 +337,12 @@ class Paldain extends ClassSheet
         ['simple weapons', 'martial weapons'],
         null,
         {
-            "charisma":true,"wisdom":true
+            'strength': false,
+            'dexterity': false,
+            'constitution': false,
+            'intelligence': false,
+            'wisdom': true,
+            'charisma': true,
         },
         {
             "Athletics":false,
@@ -371,10 +395,12 @@ const classes = {'paladin':new Paldain(), 'fighter':new Fighter()}
 let currClass = classes['paladin'];
 currClass.updateCharacter();
 currClass.renderStats();
+currClass.renderModifires();
 
 function changeClass(c)
 {
     currClass = classes[c];
     currClass.updateCharacter();
     currClass.renderStats();
+    currClass.renderModifires();
 }
