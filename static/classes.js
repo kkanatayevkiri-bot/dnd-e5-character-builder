@@ -98,9 +98,9 @@ class ClassSheet
         this.stats[stat]++;
         this.currentPoints--;
 
-        this.updateModifire(stat, true);
-        this.updateStat(stat);
-        this.updateMod(stat);
+        this.updateModifire(stat);
+        this.updateST(stat); //Saving Throw
+        this.reRender(stat);
         this.updateCharacter();
     }
 
@@ -111,39 +111,35 @@ class ClassSheet
         this.stats[stat]--;
         this.currentPoints++;
 
-        this.updateModifire(stat, false);
-        this.updateStat(stat);
-        this.updateMod(stat);
+        this.updateModifire(stat);
+        this.updateST(stat); //Saving Throw
+        this.reRender(stat);
         this.updateCharacter();
     }
 
-    updateStat(stat)
-    {
-        let content = document.getElementById(`stat-${stat}`);
-        content.innerHTML = this.stats[stat];
-    }
-
-    updateModifire(stat, flag)
+    updateModifire(stat)
     {
         let val = this.stats[stat];
-        if (flag)this.modifires[stat] = Math.round((val-10)/2);
-        else this.modifires[stat] = Math.floor((val-10)/2);
+        this.modifires[stat] = Math.floor((val-10)/2);
     }
 
-    updateMod(stat)
+    updateST(stat) //Saving Throw
     {
-        let content = document.getElementById(`mod-${stat}`);
-        content.innerHTML = this.modifires[stat];
+        let num = this.modifires[stat];
+        if(this.savingThrowProficiencies[stat])num+=this.proficiency;
+        this.savingThrows[stat] = num;
     }
 
-    updateSavingThrows()
+
+    reRender(stat)
     {
-        for (const stat of Object.keys(this.stats))
-        {
-            let modifire = this.modifires[stat]; //int
-            if(this.savingThrowProficiencies[stat])modifire+=this.proficiency;
-            this.savingThrows[stat] = modifire;
-        }
+        let content_stat = document.getElementById(`stat-${stat}`);
+        let content_mod = document.getElementById(`mod-${stat}`);
+        let content_sv = document.getElementById(`saving-throw-${stat}`);
+
+        content_stat.innerHTML = this.stats[stat];
+        content_mod.innerHTML = this.modifires[stat];
+        content_sv.innerHTML = this.savingThrows[stat];
     }
 
     updateSkills()
@@ -180,6 +176,21 @@ class ClassSheet
         {
             content+=`${modifire}:<div id='mod-${modifire}' style='display:inline;'>${val}</div><br><br>`
         }
+        placeHolder.innerHTML = content;
+    }
+
+    renderSavingThrows()
+    {
+        let placeHolder = document.getElementById('saving-throw-cont');
+        let content = '';
+        
+        for (let [stat, val] of Object.entries(this.savingThrows))
+        {   
+            if(this.savingThrowProficiencies[stat])val+=this.proficiency;
+            this.savingThrows[stat] = val;
+            content += `${stat}:<div id='saving-throw-${stat}'>${val}</div><br>`
+        }
+
         placeHolder.innerHTML = content;
     }
 
@@ -315,14 +326,13 @@ class ClassSheet
     //refresh after every input:
     updateCharacter()
     {
-        this.updateSavingThrows();
         this.updateSkills();
         this.keepCheckedOn();
         this.disableNoneProficient();
         this.turnOffNoneExpertise();
         this.countProficincyPoints();
         this.countExpertisePoints();
-        this.HitPoints = this.calcHitPoints()
+        this.HitPoints = this.calcHitPoints();
     }
 }
 
@@ -396,6 +406,7 @@ let currClass = classes['paladin'];
 currClass.updateCharacter();
 currClass.renderStats();
 currClass.renderModifires();
+currClass.renderSavingThrows();
 
 function changeClass(c)
 {
@@ -403,4 +414,8 @@ function changeClass(c)
     currClass.updateCharacter();
     currClass.renderStats();
     currClass.renderModifires();
+    currClass.renderSavingThrows();
 }
+
+//fix the saving throw logic. we are do not get 7 (when a stat is a 20) but when we press
+//'-' once it will get some how to 7 when stat is 19.
