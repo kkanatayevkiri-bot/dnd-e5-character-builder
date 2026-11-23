@@ -23,24 +23,6 @@ class ClassSheet
             'wisdom': 8,
             'charisma': 8
         };
-        //modifires
-        this.modifires = {
-            "strength":-1,
-            "dexterity":-1,
-            "constitution":-1,
-            "intelligence":-1,
-            "wisdom":-1,
-            "charisma":-1,
-        }
-        //saving throws
-        this.savingThrows = {
-            "strength":-1,
-            "dexterity":-1,
-            "constitution":-1,
-            "intelligence":-1,
-            "wisdom":-1,
-            "charisma":-1,
-        }
         //sub skills for each stat:
         this.skills = {
             "strength":{"Athletics":-1},
@@ -88,7 +70,7 @@ class ClassSheet
 
     calcHitPoints()
     {
-        return this.baseHp+this.modifires["constitution"];
+        return this.baseHp+this.getModifire['constitution'];
     }
 
     addPoint(stat)
@@ -98,7 +80,10 @@ class ClassSheet
         this.stats[stat]++;
         this.currentPoints--;
 
+        //update visual
         this.updateStat(stat);
+        this.updateModifire(stat);
+        this.updateSavingThrow(stat);
         this.updateCharacter();
     }
 
@@ -109,32 +94,41 @@ class ClassSheet
         this.stats[stat]--;
         this.currentPoints++;
 
+        //update visual
         this.updateStat(stat);
+        this.updateModifire(stat);
+        this.updateSavingThrow(stat);
         this.updateCharacter();
     }
 
+    getST(stat) //saving Throw
+    {
+        let mod = this.getModifire(stat);
+        return this.savingThrowProficiencies[stat]? mod+this.proficiency: mod;
+    }
     updateStat(stat)
     {
         let content = document.getElementById(`stat-${stat}`);
         content.innerHTML = this.stats[stat];
     }
 
-    updateModifires()
+    updateModifire(stat)
     {
-        for (const [stat, val] of Object.entries(this.stats))
-        {
-            this.modifires[stat] = Math.floor((val-10)/2);
-        }
+        let content = document.getElementById(`modifire-${stat}`);
+        content.innerHTML = this.getModifire(stat);
     }
 
-    updateSavingThrows()
+    updateSavingThrow(stat)
     {
-        for (const stat of Object.keys(this.stats))
-        {
-            let modifire = this.modifires[stat]; //int
-            if(this.savingThrowProficiencies[stat])modifire+=this.proficiency;
-            this.savingThrows[stat] = modifire;
-        }
+        let content = document.getElementById(`saving-throw-${stat}`);
+        let num = this.getModifire(stat);
+        if (this.savingThrowProficiencies[stat])num+=this.proficiency;
+        content.innerHTML = num;
+    }
+
+    getModifire(stat)
+    {
+        return Math.floor((this.stats[stat]-10)/2);
     }
 
     updateSkills()
@@ -143,24 +137,12 @@ class ClassSheet
         {
             for (const skill of Object.keys(skills))
             {
-                let mod = this.modifires[stat];
+                let mod = this.getModifire[stat];
                 if(this.skillProficiencies[skill])mod+=this.proficiency;
                 if(this.skillExpertise[skill])mod+=this.proficiency;
                 this.skills[stat][skill] = mod;
             }
         }
-    }
-
-    renderStats()
-    {
-        // console.log("worked");
-        let placeHolder = document.getElementById('stat-cont');
-        let content = "";
-        for(const [stat, val] of Object.entries(this.stats))
-        {
-            content+=`<button onclick='currClass.addPoint("${stat}")'>+</button>${stat}:<div id='stat-${stat}' style='display:inline;'>${val}</div><button onclick="currClass.decPoint('${stat}')">-</button><br><br>`
-        }
-        placeHolder.innerHTML = content;
     }
 
     //proficincy logic:
@@ -261,12 +243,6 @@ class ClassSheet
         })
     }
 
-    toggleExpertise(skill)
-    {
-        if(!this.skillExpertise[skill])this.skillExpertise[skill]=true; //turn on if off.
-        else this.skillExpertise[skill]=false; //turn off if on. (if selected again)
-    }
-
     turnOffNoneCheckedExpertise()
     {
         let exper = document.querySelectorAll('input[name="expertise"]');
@@ -274,6 +250,12 @@ class ClassSheet
         {
             if (!skill.checked)skill.disabled=true;
         })
+    }
+
+    toggleExpertise(skill)
+    {
+        if(!this.skillExpertise[skill])this.skillExpertise[skill]=true; //turn on if off.
+        else this.skillExpertise[skill]=false; //turn off if on. (if selected again)
     }
 
     expertiseCap(skill)
@@ -291,12 +273,45 @@ class ClassSheet
         }
     }
 
+    //render:
+    renderStats()
+    {
+        // console.log("worked");
+        let placeHolder = document.getElementById('stat-cont');
+        let content = "";
+        for(const [stat, val] of Object.entries(this.stats))
+        {
+            content+=`<button onclick='currClass.addPoint("${stat}")'>+</button>${stat}:<div id='stat-${stat}' style='display:inline;'>${val}</div><button onclick="currClass.decPoint('${stat}')">-</button><br><br>`
+        }
+        placeHolder.innerHTML = content;
+    }
+
+    rederModifier()
+    {
+        let placeHolder = document.getElementById('modifiers-cont');
+        let content = "";
+        let statsLis = Object.keys(this.stats)
+        statsLis.forEach((stat)=>{
+            content+=`${stat}: <div id='modifire-${stat}' style='display:inline;'>${this.getModifire(stat)}</div><br><br>`
+        })
+        placeHolder.innerHTML = content;
+    }
+
+    renderST() //Saving Throw
+    {
+        let content = document.getElementById('saving-throws-cont');
+        let continer = "";
+        let statsLis = Object.keys(this.stats);
+        statsLis.forEach((stat)=>{
+            continer+=`${stat}: <div id='saving-throw-${stat}' style='display:inline;'>${this.getST(stat)}</div><br><br>`
+        })
+        content.innerHTML = continer;
+    }
+
 
     //refresh after every input:
     updateCharacter()
     {
-        this.updateModifires();
-        this.updateSavingThrows();
         this.updateSkills();
         this.keepCheckedOn();
         this.disableNoneProficient();
@@ -371,6 +386,8 @@ const classes = {'paladin':new Paldain(), 'fighter':new Fighter()}
 let currClass = classes['paladin'];
 currClass.updateCharacter();
 currClass.renderStats();
+currClass.rederModifier();
+currClass.renderST();
 
 function changeClass(c)
 {

@@ -1,4 +1,4 @@
-import sqlite3 as sql
+import sqlite3
 from flask import Flask, request, jsonify, render_template
 import os
 
@@ -32,24 +32,20 @@ app = Flask(__name__)
 def home():
     return render_template('mySite.html')
 
-@app.route('/subPage1')
-def secondPage():
-    return render_template('test2.html')
-
 #Logic:
-def initDB()->None: #change in the feture need MASSIVE changes!
+def giveDB():
     full_path = os.path.dirname(os.path.abspath(__file__))
-    conn = sql.connect(os.path.join(full_path,'mydb.db'))
+    conn = sqlite3.connect(os.path.join(full_path,'mydb.db'))
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def initDB()->None: #change in the feture need MASSIVE changes!
+    conn = giveDB()
     cursor = conn.cursor()
     cursor.execute(
         '''CREATE TABLE IF NOT EXISTS dnd_char (
         id INTEGER PRIMARY KEY,
-        strength INTEGER,
-        dexterity INTEGER,
-        constitution INTEGER,
-        wisdom INTEGER,
-        intelligence INTEGER,
-        charisma INTEGER
+        stats STRING
         )'''
         )
     conn.commit()
@@ -57,31 +53,6 @@ def initDB()->None: #change in the feture need MASSIVE changes!
 
 #Power up the function .db
 initDB()
-
-#Recive data
-@app.route('/save/character', methods=['POST'])
-def save_stats(FULL_PATH):
-    data = request.get_json() #goes straight here.
-
-    #unpack
-    stre = data.get('strength')
-    dexterity = data.get('dexterity')
-    constitution = data.get('constitution')
-    wisdom = data.get('wisdom')
-    intelligence = data.get('intelligence')
-    charisma = data.get('charisma')
-
-    conn = sql.connect(os.path.join(full_path, 'mydb.db'))
-    cursor = conn.cursor()
-    cursor.execute('''
-    INSERT INTO dnd_char (strength, dexterity, constitution, wisdom, intelligence, charisma)
-    VALUES (?,?,?,?,?,?)
-    ''',(stre, dexterity, constitution, wisdom, intelligence, charisma))
-
-    conn.commit()
-    conn.close()
-
-    return jsonify({'stats':'success','message':'Character saved successfully!'})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
