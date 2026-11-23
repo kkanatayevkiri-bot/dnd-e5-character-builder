@@ -108,8 +108,8 @@ class ClassSheet
     }
     updateStat(stat)
     {
-        let content = document.getElementById(`stat-${stat}`);
-        content.innerHTML = this.stats[stat];
+        let val = this.stats[stat];
+        this.modifires[stat] = Math.floor((val-10)/2);
     }
 
     updateModifire(stat)
@@ -318,7 +318,7 @@ class ClassSheet
         this.turnOffNoneExpertise();
         this.countProficincyPoints();
         this.countExpertisePoints();
-        this.HitPoints = this.calcHitPoints()
+        this.HitPoints = this.calcHitPoints();
     }
 }
 
@@ -333,7 +333,12 @@ class Paldain extends ClassSheet
         ['simple weapons', 'martial weapons'],
         null,
         {
-            "charisma":true,"wisdom":true
+            'strength': false,
+            'dexterity': false,
+            'constitution': false,
+            'intelligence': false,
+            'wisdom': true,
+            'charisma': true,
         },
         {
             "Athletics":false,
@@ -394,4 +399,9 @@ function changeClass(c)
     currClass = classes[c];
     currClass.updateCharacter();
     currClass.renderStats();
+    currClass.renderModifires();
+    currClass.renderSavingThrows();
 }
+
+//fix the saving throw logic. we are do not get 7 (when a stat is a 20) but when we press
+//'-' once it will get some how to 7 when stat is 19.
