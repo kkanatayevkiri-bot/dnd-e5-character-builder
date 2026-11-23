@@ -307,6 +307,8 @@ class ClassSheet
         })
         content.innerHTML = continer;
     }
+    
+    addSomething(){}
 
 
     //refresh after every input:
