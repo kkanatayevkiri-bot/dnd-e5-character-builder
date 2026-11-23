@@ -70,7 +70,7 @@ class ClassSheet
 
     calcHitPoints()
     {
-        return this.baseHp+this.getModifire['constitution'];
+        return this.baseHp+this.getModifire('constitution');
     }
 
     addPoint(stat)
@@ -108,8 +108,8 @@ class ClassSheet
     }
     updateStat(stat)
     {
-        let val = this.stats[stat];
-        this.modifires[stat] = Math.floor((val-10)/2);
+        let container = document.getElementById(`stat-${stat}`);
+        container.innerHTML = this.stats[stat];
     }
 
     updateModifire(stat)
