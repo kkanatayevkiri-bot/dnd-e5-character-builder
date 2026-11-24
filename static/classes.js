@@ -3,6 +3,7 @@ class ClassSheet
     constructor(
         hitDice,
         HitPoints,
+        features=[],
         armor,
         weapons,
         Tools=null,
@@ -56,6 +57,7 @@ class ClassSheet
         this.currentPoints = 24;
         this.hitDice = hitDice; //int
         this.baseHp = HitPoints;
+        this.features = features //list
         this.HitPoints = this.calcHitPoints(); //int
         this.armor = armor; //list
         this.weapons = weapons; //list
@@ -84,6 +86,7 @@ class ClassSheet
         this.updateStat(stat);
         this.updateModifire(stat);
         this.updateSavingThrow(stat);
+        this.newSkillsValue(stat);
         this.updateCharacter();
     }
 
@@ -106,6 +109,20 @@ class ClassSheet
         let mod = this.getModifire(stat);
         return this.savingThrowProficiencies[stat]? mod+this.proficiency: mod;
     }
+
+    newSkillsValue(stat)
+    {
+        // if(stat != 'constitution')
+        // {
+        //     for(const [skill, val] of Object.entries(this.skills[stat]))
+        //     {
+        //         let cont = document.getElementById(`${skill}-num`);
+        //         cont.innerHTML = val;
+        //     }
+        // }
+        return
+    }
+
     updateStat(stat)
     {
         let container = document.getElementById(`stat-${stat}`);
@@ -133,14 +150,17 @@ class ClassSheet
 
     updateSkills()
     {
-        for (const [stat, skills] of Object.entries(this.skills))
+        for (const stat of Object.keys(this.skills))
         {
-            for (const skill of Object.keys(skills))
+            for(let [skill, _] of Object.entries(this.skills[stat]))
             {
-                let mod = this.getModifire[stat];
-                if(this.skillProficiencies[skill])mod+=this.proficiency;
-                if(this.skillExpertise[skill])mod+=this.proficiency;
-                this.skills[stat][skill] = mod;
+                let cont = document.getElementById(`${skill}-num`);
+                let num = this.getModifire(stat);
+                if(this.skillProficiencies[skill])num+=this.proficiency;
+                if(this.skillExpertise[skill])num+=this.proficiency;
+                this.skills[stat][skill]=num;
+                cont.innerHTML = num;
+                // console.log(val);
             }
         }
     }
@@ -162,7 +182,7 @@ class ClassSheet
     {
         if (Object.keys(this.skillProficiencies).includes(skill))
         {
-            console.log("worked");
+            // console.log("worked");
             if(this.skillProficiencies[skill]===false)this.skillProficiencies[skill]=true;
             else this.skillProficiencies[skill]=false;
             // console.log(this.skillProficiencies);
@@ -206,14 +226,10 @@ class ClassSheet
         this.turnOnPossibleExpertise(skill);
         let num = document.querySelectorAll('input[name="proficiency"]:checked').length;
         this.countProficincyPoints();
-        // console.log("works");
+        this.updateCharacter();
         if (num == this.proficiencyNum)
         {
             this.disableUnhceckedSKills();
-        }
-        else
-        {
-            this.updateCharacter();
         }
     }
 
@@ -273,6 +289,20 @@ class ClassSheet
         }
     }
 
+    resetChecked()
+    {
+        const prof = document.querySelectorAll('input[name="proficiency"]:checked');
+        const exper = document.querySelectorAll('input[name="expertise"]:checked');
+
+        prof.forEach((skill)=>{
+            skill.checked = false;
+        })
+
+        exper.forEach((skill)=>{
+            skill.checked = false;
+        })
+    }
+
     //render:
     renderStats()
     {
@@ -307,9 +337,18 @@ class ClassSheet
         })
         content.innerHTML = continer;
     }
-    
-    addSomething(){}
 
+    renderFeatures()
+    {
+        let container = document.getElementById("Features-cont");
+        let content = `<ul>`;
+        for(const feature of this.features)
+        {
+            content+=`<li>${feature}</li>`
+        }
+        content += '</ul>'
+        container.innerHTML=content;
+    }
 
     //refresh after every input:
     updateCharacter()
@@ -322,6 +361,16 @@ class ClassSheet
         this.countExpertisePoints();
         this.HitPoints = this.calcHitPoints();
     }
+
+    loadCharacter()
+    {
+        this.updateCharacter();
+        this.renderFeatures();
+        this.renderStats();
+        this.rederModifier();
+        this.renderST();
+        this.resetChecked();
+    }
 }
 
 class Paldain extends ClassSheet
@@ -331,6 +380,7 @@ class Paldain extends ClassSheet
         super(
         "1d10",
         10,
+        ["Divine Sense", "Lay on Hands"],
         ["all armors"],
         ['simple weapons', 'martial weapons'],
         null,
@@ -365,11 +415,17 @@ class Fighter extends ClassSheet
         super(
         "1d10",
         10,
+        ["Fighting Style", "Second Wind"],
         ["all armors",'shields'],
         ['simple weapons', 'martial weapons'],
         null,
         {
-            "Strength":true,"Constitution":true
+            'strength': true,
+            'dexterity': false,
+            'constitution': true,
+            'intelligence': false,
+            'wisdom': false,
+            'charisma': false,
         },
         {
             "Acrobatics":false,
@@ -381,7 +437,7 @@ class Fighter extends ClassSheet
             "Perception":false,
             "Survival":false
         },
-        {},
+        {"Acrobatics":false,},
         2,
         2,
         0
@@ -391,19 +447,10 @@ class Fighter extends ClassSheet
 
 const classes = {'paladin':new Paldain(), 'fighter':new Fighter()}
 let currClass = classes['paladin'];
-currClass.updateCharacter();
-currClass.renderStats();
-currClass.rederModifier();
-currClass.renderST();
+currClass.loadCharacter();
 
 function changeClass(c)
 {
     currClass = classes[c];
-    currClass.updateCharacter();
-    currClass.renderStats();
-    currClass.renderModifires();
-    currClass.renderSavingThrows();
+    currClass.loadCharacter();
 }
-
-//fix the saving throw logic. we are do not get 7 (when a stat is a 20) but when we press
-//'-' once it will get some how to 7 when stat is 19.

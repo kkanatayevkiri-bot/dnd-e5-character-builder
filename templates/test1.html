@@ -5,160 +5,99 @@
     <title>Page Title</title>
 
     <style>
-        .cont
+        .continer
         {
-            display: flex;
-            background-color: bisque;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        .header
-        {
-            display: flex;
-            flex:0 1 0;
-            background-color: aqua;
-        }
-        
-
-        .footer
-        {
-            display: flex;
-            flex:0 1 0;
-            background-color:aquamarine;
+            display: grid;
+            grid-template-columns: auto auto auto;
+            width: fit-content;
         }
 
-        .body
+        .continer div
         {
-            display: flex;
-            flex: 1;
-            flex-direction: row;
-        }
-        .idk1
-        {
-            display: flex;
-            flex: 1;
-            background-color: lightcoral;
-        }
-        .idk2
-        {
-            display: flex;
-            flex: 1;
-            background-color: goldenrod;
-        }
-        .idk3
-        {
-            display: flex;
-            flex: 1;
-            background-color: salmon;
+            display: inline;
         }
     </style>
 </head>
 <body>
-    <div class="cont">
-        <div class="header">header</div>
-        <div class="body">
-            <div class="idk1"></div>
-            <div class="idk2"></div>
-            <div class="idk3"></div>
+    <div class="continer">
+        <div class="item"> <!--gride 1-->
+            (<div id="Athletics-num"></div>)<br>
+            (<div id="Acrobatics-num"></div>)<br>
+            (<div id="Sleight of Hand-num"></div>)<br>
+            (<div id="Stealth-num"></div>)<br>
+            (<div id="Arcana-num"></div>)<br>
+            (<div id="History-num"></div>)<br>
+            (<div id="Investigation-num"></div>)<br>
+            (<div id="Nature-num"></div>)<br>
+            (<div id="Religion-num"></div>)<br>
+            (<div id="Animal Handling-num"></div>)<br>
+            (<div id="Insight-num"></div>)<br>
+            (<div id="Medicine-num"></div>)<br>
+            (<div id="Perception-num"></div>)<br>
+            (<div id="Survival-num"></div>)<br>
+            (<div id="Deception-num"></div>)<br>
+            (<div id="Intimidation-num"></div>)<br>
+            (<div id="Performance-num"></div>)<br>
+            (<div id="Persuasion-num"></div>)
         </div>
-        <div class="footer">footer</div>
+        <div class="item"> <!--gride 2-->
+            <label for="Athletics">Athletics:</label><br>
+            <label for="Acrobatics">Acrobatics:</label><br>
+            <label for="Sleight of Hand">Sleight of Hand:</label><br>
+            <label for="Stealth">Stealth:</label><br>
+            <label for="Arcana">Arcana:</label><br>
+            <label for="History">History:</label><br>
+            <label for="Investigation">Investigation:</label><br>
+            <label for="Nature">Nature:</label><br>
+            <label for="Religion">Religion:</label><br>
+            <label for="Animal Handling">Animal Handling:</label><br>
+            <label for="Insight">Insight:</label><br>
+            <label for="Medicine">Medicine:</label><br>
+            <label for="Perception">Perception:</label><br>
+            <label for="Survival">Survival:</label><br>
+            <label for="Deception">Deception:</label><br>
+            <label for="Intimidation">Intimidation:</label><br>
+            <label for="Performance">Performance:</label><br>
+            <label for="Persuasion">Persuasion:</label>
+        </div>
+        <div class="item"> <!--gride 3-->
+            <input type="checkbox" name="proficiency" id="Athletics" value="Athletics" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Athletics" value="Athletics" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Acrobatics" value="Acrobatics" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Acrobatics" value="Acrobatics" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Sleight of Hand" value="Sleight of Hand" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Sleight of Hand" value="Sleight of Hand" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Stealth" value="Stealth" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Stealth" value="Stealth" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Arcana" value="Arcana" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Arcana" value="Arcana" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="History" value="History" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-History" value="History" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Investigation" value="Investigation" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Investigation" value="Investigation" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Nature" value="Nature" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Nature" value="Nature" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Religion" value="Religion" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Religion" value="Religion" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Animal Handling" value="Animal Handling" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Animal Handling" value="Animal Handling" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Insight" value="Insight" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Insight" value="Insight" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Medicine" value="Medicine" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Medicine" value="Medicine" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Perception" value="Perception" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Perception" value="Perception" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Survival" value="Survival" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Survival" value="Survival" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Deception" value="Deception" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Deception" value="Deception" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Intimidation" value="Intimidation" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Intimidation" value="Intimidation" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Performance" value="Performance" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Performance" value="Performance" onchange="currClass.expertiseCap(this.value)"><br>
+            <input type="checkbox" name="proficiency" id="Persuasion" value="Persuasion" onchange="currClass.proficiencyCap(this.value)">
+            <input type="checkbox" name="expertise" id="exp-Persuasion" value="Persuasion" onchange="currClass.expertiseCap(this.value)">
+        </div>
     </div>
-    <!-- version 1: -->
-    <!-- <h3>Proficiency:</h3>
-    Available Proficiency Points:<div id="Ppoints"></div>
-    <label for="Athletics">Athletics:</label><input type="checkbox" name="proficiency" id="Athletics" value="Athletics" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Acrobatics">Acrobatics:</label><input type="checkbox" name="proficiency" id="Acrobatics" value="Acrobatics" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Sleight of Hand">Sleight of Hand:</label><input type="checkbox" name="proficiency" id="Sleight of Hand" value="Sleight of Hand" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Stealth">Stealth:</label><input type="checkbox" name="proficiency" id="Stealth" value="Stealth" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Arcana">Arcana:</label><input type="checkbox" name="proficiency" id="Arcana" value="Arcana" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="History">History:</label><input type="checkbox" name="proficiency" id="History" value="History" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Investigation">Investigation:</label><input type="checkbox" name="proficiency" id="Investigation" value="Investigation" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Nature">Nature:</label><input type="checkbox" name="proficiency" id="Nature" value="Nature" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Religion">Religion:</label><input type="checkbox" name="proficiency" id="Religion" value="Religion" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Animal Handling">Animal Handling:</label><input type="checkbox" name="proficiency" id="Animal Handling" value="Animal Handling" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Insight">Insight:</label><input type="checkbox" name="proficiency" id="Insight" value="Insight" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Medicine">Medicine:</label><input type="checkbox" name="proficiency" id="Medicine" value="Medicine" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Perception">Perception:</label><input type="checkbox" name="proficiency" id="Perception" value="Perception" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Survival">Survival:</label><input type="checkbox" name="proficiency" id="Survival" value="Survival" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Deception">Deception:</label><input type="checkbox" name="proficiency" id="Deception" value="Deception" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Intimidation">Intimidation:</label><input type="checkbox" name="proficiency" id="Intimidation" value="Intimidation" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Performance">Performance:</label><input type="checkbox" name="proficiency" id="Performance" value="Performance" onchange="paladin.proficiencyCap(this.value)"><br>
-    <label for="Persuasion">Persuasion:</label><input type="checkbox" name="proficiency" id="Persuasion" value="Persuasion" onchange="paladin.proficiencyCap(this.value)"><br> -->
-    <!-- <h3>expertise:</h3>
-    Available Expertise Points:<div id="Epoints"></div> -->
-    <!-- <label for="Athletics">Athletics:</label><input type="checkbox" name="expertise" id="exp-Athletics" value="Athletics" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Acrobatics">Acrobatics:</label><input type="checkbox" name="expertise" id="exp-Acrobatics" value="Acrobatics" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Sleight of Hand">Sleight of Hand:</label><input type="checkbox" name="expertise" id="exp-Sleight of Hand" value="Sleight of Hand" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Stealth">Stealth:</label><input type="checkbox" name="expertise" id="exp-Stealth" value="Stealth" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Arcana">Arcana:</label><input type="checkbox" name="expertise" id="exp-Arcana" value="Arcana" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="History">History:</label><input type="checkbox" name="expertise" id="exp-History" value="History" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Investigation">Investigation:</label><input type="checkbox" name="expertise" id="exp-Investigation" value="Investigation" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Nature">Nature:</label><input type="checkbox" name="expertise" id="exp-Nature" value="Nature" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Religion">Religion:</label><input type="checkbox" name="expertise" id="exp-Religion" value="Religion" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Animal Handling"expertiseCap>Animal Handling:</label><input type="checkbox" name="expertise" id="exp-Animal Handling" value="Animal Handling" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Insight">Insight:</label><input type="checkbox" name="expertise" id="exp-Insight" value="Insight" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Medicine">Medicine:</label><input type="checkbox" name="expertise" id="exp-Medicine" value="Medicine" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Perception">Perception:</label><input type="checkbox" name="expertise" id="exp-Perception" value="Perception" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Survival">Survival:</label><input type="checkbox" name="expertise" id="exp-Survival" value="Survival" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Deception">Deception:</label><input type="checkbox" name="expertise" id="exp-Deception" value="Deception" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Intimidation">Intimidation:</label><input type="checkbox" name="expertise" id="exp-Intimidation" value="Intimidation" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Performance">Performance:</label><input type="checkbox" name="expertise" id="exp-Performance" value="Performance" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Persuasion">Persuasion:</label><input type="checkbox" name="expertise" id="exp-Persuasion" value="Persuasion" onchange="paladin.expertiseCap(this.value)"><br> -->
-
-    <!-- version 1: -->
-    <!-- <label for="Athletics">Athletics:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Athletics" value="Athletics" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Athletics" value="Athletics" onchange="paladin.expertiseCap(this.value)"><br> -->
-    <!-- <label for="Acrobatics">Acrobatics:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Acrobatics" value="Acrobatics" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Acrobatics" value="Acrobatics" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Sleight of Hand">Sleight of Hand:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Sleight of Hand" value="Sleight of Hand" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Sleight of Hand" value="Sleight of Hand" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Stealth">Stealth:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Stealth" value="Stealth" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Stealth" value="Stealth" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Arcana">Arcana:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Arcana" value="Arcana" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Arcana" value="Arcana" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="History">History:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="History" value="History" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-History" value="History" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Investigation">Investigation:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Investigation" value="Investigation" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Investigation" value="Investigation" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Nature">Nature:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Nature" value="Nature" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Nature" value="Nature" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Religion">Religion:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Religion" value="Religion" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Religion" value="Religion" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Animal Handling">Animal Handling:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Animal Handling" value="Animal Handling" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Animal Handling" value="Animal Handling" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Insight">Insight:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Insight" value="Insight" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Insight" value="Insight" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Medicine">Medicine:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Medicine" value="Medicine" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Medicine" value="Medicine" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Perception">Perception:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Perception" value="Perception" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Perception" value="Perception" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Survival">Survival:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Survival" value="Survival" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Survival" value="Survival" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Deception">Deception:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Deception" value="Deception" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Deception" value="Deception" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Intimidation">Intimidation:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Intimidation" value="Intimidation" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Intimidation" value="Intimidation" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Performance">Performance:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Performance" value="Performance" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Performance" value="Performance" onchange="paladin.expertiseCap(this.value)"> -->
-    <!-- <label for="Persuasion">Persuasion:</label> -->
-    <!-- <input type="checkbox" name="proficiency" id="Persuasion" value="Persuasion" onchange="paladin.proficiencyCap(this.value)">
-    <input type="checkbox" name="expertise" id="exp-Persuasion" value="Persuasion" onchange="paladin.expertiseCap(this.value)"> -->
 </body>
 </html>
