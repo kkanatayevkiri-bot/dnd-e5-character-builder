@@ -1,20 +1,61 @@
 class ClassSheet
 {
     constructor(
+        subclass,
+        spells,
+        cantrips,
         hitDice,
         HitPoints,
         features=[],
         armor,
         weapons,
-        Tools=null,
+        Tools,
         savingThrowProficiencies,
         skillProficiencies,
         skillExpertise,
         proficiency,
         proficiencyNum,
-        expertiseNum
+        expertiseNum,
     )
     {
+        //what can be set.
+        this.subclass = subclass === null? "":subclass
+        this.spells = spells === null? {
+            1:[],
+            2:[],
+            3:[],
+            4:[],
+            5:[],
+            6:[],
+            7:[],
+            8:[],
+            9:[],
+            10:[],
+            11:[],
+            12:[],
+            13:[],
+            14:[],
+            15:[],
+            16:[],
+            17:[],
+            18:[],
+            19:[],
+            20:[]
+        }:spells
+        this.cantrips = cantrips === null? []: cantrips
+        this.hitDice = hitDice;
+        this.baseHp = HitPoints; //int
+        this.features = features //list
+        this.armor = armor; //list
+        this.weapons = weapons; //list
+        this.Tools = Tools; //boolean
+        this.savingThrowProficiencies = savingThrowProficiencies; //dict
+        this.skillProficiencies = skillProficiencies; //dict
+        this.skillExpertise = skillExpertise; //dict
+        this.proficiency = proficiency; //int
+        this.proficiencyNum = proficiencyNum; //int
+        this.expertiseNum = expertiseNum; //int
+
         //stats
         this.stats = {
             'strength': 8,
@@ -24,7 +65,6 @@ class ClassSheet
             'wisdom': 8,
             'charisma': 8
         };
-        //sub skills for each stat:
         this.skills = {
             "strength":{"Athletics":-1},
             "dexterity":{
@@ -54,25 +94,22 @@ class ClassSheet
             }
         }
         this.level = 1;
-        this.currentPoints = 24;
-        this.hitDice = hitDice; //int
-        this.baseHp = HitPoints;
-        this.features = features //list
-        this.HitPoints = this.calcHitPoints(); //int
-        this.armor = armor; //list
-        this.weapons = weapons; //list
-        this.Tools = Tools; //boolean
-        this.savingThrowProficiencies = savingThrowProficiencies; //dict
-        this.skillProficiencies = skillProficiencies; //dict
-        this.skillExpertise = skillExpertise; //dict
-        this.proficiency = proficiency; //int
-        this.proficiencyNum = proficiencyNum; //int
-        this.expertiseNum = expertiseNum; //int
+        this.currentPoints = 27;
+        this.currHp = this.calcHitPoints(); //int
     }
 
     calcHitPoints()
     {
-        return this.baseHp+this.getModifire('constitution');
+        return Math.max(1,this.baseHp+this.getModifire('constitution'));
+    }
+
+    newHpVal(currlvl=this.level, targetlvl=this.level, die=this.HitPoints)
+    {
+        for(let lvl=currlvl;lvl<targetlvl;lvl++)
+        {
+            const num = Math.floor(Math.random()*die)+1+this.getModifire("constitution");
+            this.currHp += Math.max(1, num);
+        }
     }
 
     addPoint(stat)
@@ -86,7 +123,6 @@ class ClassSheet
         this.updateStat(stat);
         this.updateModifire(stat);
         this.updateSavingThrow(stat);
-        this.newSkillsValue(stat);
         this.updateCharacter();
     }
 
@@ -108,19 +144,6 @@ class ClassSheet
     {
         let mod = this.getModifire(stat);
         return this.savingThrowProficiencies[stat]? mod+this.proficiency: mod;
-    }
-
-    newSkillsValue(stat)
-    {
-        // if(stat != 'constitution')
-        // {
-        //     for(const [skill, val] of Object.entries(this.skills[stat]))
-        //     {
-        //         let cont = document.getElementById(`${skill}-num`);
-        //         cont.innerHTML = val;
-        //     }
-        // }
-        return
     }
 
     updateStat(stat)
@@ -350,18 +373,67 @@ class ClassSheet
         container.innerHTML=content;
     }
 
+    renderPoints()
+    {
+        let continer = document.getElementById("points-cont");
+        continer.innerHTML = this.currentPoints;
+    }
+
+    //auto points setter:
+    rollingDice()
+    {
+        for(const stat of Object.keys(this.stats))
+        {
+            this.stats[stat] = this.rollDie();
+            this.updateStat(stat);
+            this.updateModifire(stat);
+        }
+        this.currentPoints = 0;
+        this.updateCharacter();
+
+    }
+    //4d6
+    rollDie()
+    {
+        let dies = [];
+        for (let i=0;i<4;i++)
+        {
+            dies.push(Math.floor(Math.random() * 6) + 1)
+        }
+        dies.sort();
+        dies.pop();
+        let sum = 0;
+        for(let num of dies)sum+=num;
+        return sum;
+    }
+
+    resetPoinst()
+    {
+        for(const stat of Object.keys(this.stats))
+        {
+            this.stats[stat] = 8;
+            this.updateStat(stat);
+            this.updateModifire(stat);
+        }
+        this.currentPoints = 27;
+        this.updateCharacter();
+    }
+
     //refresh after every input:
     updateCharacter()
     {
+        this.renderPoints();
         this.updateSkills();
         this.keepCheckedOn();
         this.disableNoneProficient();
         this.turnOffNoneExpertise();
         this.countProficincyPoints();
         this.countExpertisePoints();
+        this.rollDie();
         this.HitPoints = this.calcHitPoints();
     }
 
+    //when switching/loading a class
     loadCharacter()
     {
         this.updateCharacter();
@@ -378,6 +450,9 @@ class Paldain extends ClassSheet
     constructor()
     {
         super(
+        null,
+        null,
+        null,
         "1d10",
         10,
         ["Divine Sense", "Lay on Hands"],
@@ -413,6 +488,9 @@ class Fighter extends ClassSheet
     constructor()
     {
         super(
+        null,
+        null,
+        null,
         "1d10",
         10,
         ["Fighting Style", "Second Wind"],
