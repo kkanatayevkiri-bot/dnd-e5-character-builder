@@ -46,10 +46,15 @@
         <option>Chaotic evil</option>
     </datalist>
     <br>
+    <div id="hitPoinst-cont"></div>
     <br>
     <!-- stats -->
-     <h3>Stats:</h3>
+    <h3>Stats:</h3>
+    <b>Points:</b> <div style="display: inline;" id="points-cont"></div>
+    <br><br>
     <div id="stat-cont"></div>
+    <button onclick="currClass.rollingDice()">Roll die Method</button>
+    <button onclick="currClass.resetPoinst()">Reset points</button>
     <br>
     <h3>Modifiers:</h3>
     <div id="modifiers-cont"></div>
@@ -57,15 +62,16 @@
     <h3>Saving Throws:</h3>
     <div id="saving-throws-cont"></div>
     <br>
+    <h3>Features:</h3>
+    <div id="Features-cont"></div>
+    <br>
     <!-- left side of grail -->
+    <!-- SKILLS -->
     <h3>Skills:</h3>
         Avaliable proficiency points: <div style="display: inline;" id="Ppoints"></div><br>
         Avaliable expertise points: <div style="display: inline;" id="Epoints"></div>
     <br>
-    <h3>Features:</h3>
-    <div id="Features-cont"></div>
     <br>
-    <!-- SKILLS -->
          <div class="continer">
         <div class="item"> <!--gride 1-->
             (<div id="Athletics-num"></div>)<br>
